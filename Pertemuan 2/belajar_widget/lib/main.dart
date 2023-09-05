@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -14,52 +13,39 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text("Belajar Container")),
-        body: Column(
-          children: [
+        body: Stack(
+          alignment: Alignment.topCenter,
+          children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 20),
-              margin: EdgeInsets.all(50),
-              height: 200,
-              width: 200,
-              alignment: Alignment.topCenter,
-              color: Colors.blueGrey,
-              child: Text(
-                "Belajar Flutter",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white
-                ),
-              ),
-            ),
-            Container(
+              color: Colors.greenAccent,
               alignment: Alignment.bottomCenter,
-              child: TextButton(
-                style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.red)),
-                onPressed: () {},
-                child: Text(
-                  "Button",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                )),
+              child: Text("Satu", 
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white),),
             ),
             Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage('https://pixnio.com/free-images/2017/03/07/2017-03-07-10-59-39-900x600.jpg'),
-                  fit: BoxFit.fitWidth,
-                  ),
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 5,
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              height: 200,
               width: 300,
-              margin: const EdgeInsets.only(left: 30, right: 30, top: 50),
-              transform: Matrix4.rotationZ(-0.1),
+              height: 400,
+              color: Colors.blueAccent,
+              alignment: Alignment.bottomCenter,
+              child: Text("Dua", 
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white),),
             ),
+            Container(
+              width: 200,
+              height: 200,
+              color: Colors.redAccent,
+              alignment: Alignment.bottomCenter,
+              child: Text("Tiga", 
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white),),
+            )
           ],
-        ),
+        )
       )
     );
   }

@@ -405,5 +405,163 @@ class MyApp extends StatelessWidget {
 
 ![localimage](/lib/imageLaporan/container_marginPadding.png)
 
+6. property transform : berfungsi untuk melakukan rotasi pada container dengan melakukan dari berbagai sumbu putar misalnya X,Y, dan Z
+
+7. property decoration : untuk mencustom container dengan berbagai macam efek misalnya dengan mengubah warna border, memberikan gambar, dan membuat efek bayangan.
+
+```sh
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("Belajar Container")),
+        body: Column(
+          children: [
+            Container(
+              height: 200,
+              width: 300,
+              margin: EdgeInsets.only(left: 30, right: 30, top: 50),
+              transform: Matrix4.rotationZ(-0.1),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 10),
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: Image(
+                image: NetworkImage('https://images.unsplash.com/photo-1682685797303-0ad51eb23e13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'),
+                fit: BoxFit.fitWidth,),
+            ),
+          ],
+        ),
+      )
+    );
+  }
+}
+```
+
+![localimage](/lib/imageLaporan/transform.png)
+
+## Row dan Column
+
+Column widget digunakan untuk mangatur tata letak widget secara vertikal. Sedangkan row digunakan untuk mengatur tata letak widget secara horizontal. Berikut adalah gambaran perbedaan row dan widget adalah sebagai berikut:
+
+![localimage](/lib/imageLaporan/row-column.png)
+
+```sh
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("Belajar Container")),
+        body: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 30),
+                          color: Colors.blueAccent,
+                          child: FlutterLogo(size: 80,),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 30),
+                          color: Colors.redAccent,
+                          child: FlutterLogo(size: 80,),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 30),
+                          color: Colors.greenAccent,
+                          child: FlutterLogo(size: 80,),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    color: Colors.yellowAccent,
+                    child: FlutterLogo(size: 80,),
+                  ),Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    color: Colors.orangeAccent,
+                    child: FlutterLogo(size: 80,),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      )
+    );
+  }
+}
+```
+
+![localimage](/lib/imageLaporan/row_column.png)
 
 
+## Stack
+
+Stack Widget digunakan untuk menumpuk beberapa widget pada beberapa lapisan
+
+```sh
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("Belajar Container")),
+        body: Stack(
+          alignment: Alignment.topCenter,
+          children: <Widget>[
+            Container(
+              color: Colors.greenAccent,
+              alignment: Alignment.bottomCenter,
+              child: Text("Satu", 
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white),),
+            ),
+            Container(
+              width: 300,
+              height: 400,
+              color: Colors.blueAccent,
+              alignment: Alignment.bottomCenter,
+              child: Text("Dua", 
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white),),
+            ),
+            Container(
+              width: 200,
+              height: 200,
+              color: Colors.redAccent,
+              alignment: Alignment.bottomCenter,
+              child: Text("Tiga", 
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white),),
+            )
+          ],
+        )
+      )
+    );
+  }
+}
+```
+
+![localimage](/lib/imageLaporan/stack.png)
