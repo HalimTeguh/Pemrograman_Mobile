@@ -34,7 +34,7 @@ Text('Ini Text')
 ```
 
 Tampilan akan menjadi seperti ini:
-![localimage](/lib/imageLaporan/text.png)
+![localimage](./lib/imageLaporan/text.png)
 
 ## Image Widget
 
@@ -50,7 +50,7 @@ Image(
 
 Tampilan akan menjadi seperti ini:
 
-![localimage](/lib/imageLaporan/image.png)
+![localimage](./lib/imageLaporan/image.png)
 
 ## Material Design dan iOS Cupertino
 
@@ -80,7 +80,7 @@ child: Column(
 
 3. Berikut adalah tampilan hasil source code tersebut
 
-![localimage](/lib/imageLaporan/cupertino.png)
+![localimage](./lib/imageLaporan/cupertino.png)
 
 
 ## Button Widget
@@ -107,7 +107,7 @@ Widget build(BuildContext context) {
 ```
 
 Tampilannya sebagai berikut:
-![localimage](/lib/imageLaporan/button.png)
+![localimage](./lib/imageLaporan/button.png)
 
 ## Scaffold
 
@@ -140,7 +140,7 @@ return MaterialApp(
 
 Berikut adalah tampilan dari source code tersebut:
 
-![localimage](/lib/imageLaporan/scaffold.png)
+![localimage](./lib/imageLaporan/scaffold.png)
 
 
 ## Dialog Widget
@@ -203,7 +203,7 @@ showAlertDialog(BuildContext context) {
 
 Berikut adalah tampilan dari source code tersebut:
 
-![localimage](/lib/imageLaporan/alertDialog.png)
+![localimage](./lib/imageLaporan/alertDialog.png)
 
 ## Input dan Selection Widget
 
@@ -242,7 +242,7 @@ body: Center(
 
 Berikut adalah tampilannya
 
-![localimage](/lib/imageLaporan/textField.png)
+![localimage](./lib/imageLaporan/textField.png)
 
 
 ## Date and Time Pickers
@@ -296,7 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 Berikut adalah tampilannya
 
-![localimage](/lib/imageLaporan/datePicker.png)
+![localimage](./lib/imageLaporan/datePicker.png)
 
 
 ## Container
@@ -335,7 +335,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-![localimage](/lib/imageLaporan/container_child.png)
+![localimage](./lib/imageLaporan/container_child.png)
 
 2. property alignment : mengatur posisi child widget menggunakan property Alignment.
 
@@ -420,7 +420,7 @@ class MyApp extends StatelessWidget {
 
 ```
 
-![localimage](/lib/imageLaporan/container_marginPadding.png)
+![localimage](./lib/imageLaporan/container_marginPadding.png)
 
 6. property transform : berfungsi untuk melakukan rotasi pada container dengan melakukan dari berbagai sumbu putar misalnya X,Y, dan Z
 
@@ -459,13 +459,13 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-![localimage](/lib/imageLaporan/transform.png)
+![localimage](./lib/imageLaporan/transform.png)
 
 ## Row dan Column
 
 Column widget digunakan untuk mangatur tata letak widget secara vertikal. Sedangkan row digunakan untuk mengatur tata letak widget secara horizontal. Berikut adalah gambaran perbedaan row dan widget adalah sebagai berikut:
 
-![localimage](/lib/imageLaporan/row-column.png)
+![localimage](./lib/imageLaporan/row-column.png)
 
 ```sh
 class MyApp extends StatelessWidget {
@@ -525,7 +525,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-![localimage](/lib/imageLaporan/row_column.png)
+![localimage](./lib/imageLaporan/row_column.png)
 
 
 ## Stack
