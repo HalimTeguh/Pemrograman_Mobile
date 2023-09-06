@@ -11,41 +11,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text("Belajar Container")),
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
+      home: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            //Header
             Container(
-              color: Colors.greenAccent,
-              alignment: Alignment.bottomCenter,
-              child: Text("Satu", 
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.white),),
+              width: double.infinity,
+              height: 100,
+              color: Colors.blue,
+              child: Text("Ini Header"),
             ),
+            //Body
             Container(
-              width: 300,
-              height: 400,
-              color: Colors.blueAccent,
-              alignment: Alignment.bottomCenter,
-              child: Text("Dua", 
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.white),),
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    width: 200,
+                    height: 200,
+                    color: Colors.red,
+                  ),
+                  Container(
+                    width: 100,
+                    height: 200,
+                    color: Colors.red,
+                  ),
+                ],
+              ),
             ),
-            Container(
-              width: 200,
-              height: 200,
-              color: Colors.redAccent,
-              alignment: Alignment.bottomCenter,
-              child: Text("Tiga", 
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.white),),
-            )
+
           ],
-        )
+        ),
       )
     );
   }
