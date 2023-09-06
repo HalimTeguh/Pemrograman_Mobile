@@ -89,7 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
 ```
 
 Tampilan akan menjadi seperti ini:
-![localimage](./lib/asset/listView.png)
+
+![localimage](./lib/asset/listview.png)
 
 ## GridView
 
