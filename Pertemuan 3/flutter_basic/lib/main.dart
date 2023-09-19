@@ -36,15 +36,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title, style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+        title: Text(widget.title, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
       ),
       body: Container(
-        color: Color.fromARGB(100, 179, 229, 255),
-        padding: EdgeInsets.all(20),
+        color: const Color.fromARGB(100, 179, 229, 255),
+        padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
             Container(
-              padding: EdgeInsets.all(3),
+              padding: const EdgeInsets.all(3),
                decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(23)
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.blueAccent,
                         borderRadius: BorderRadius.circular(20)
                       ),
-                      child: TextHeader(
+                      child: const TextHeader(
                         title: 'Berita Terbaru', 
                         size: 20,
                         color: Colors.white, 
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Container(
                       height: 50,
                       alignment: Alignment.center,
-                      child: TextHeader(
+                      child: const TextHeader(
                         title: 'Inovasi Teknologi',
                         size: 20,),
                     ),
@@ -78,13 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -93,24 +93,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(bottom: 10),
+                        margin: const EdgeInsets.only(bottom: 10),
                         child: Image.asset('assets/images/Hero.jpeg')
                       ),
                       Container(
                         alignment: Alignment.center,
-                        child: TextHeader(
+                        child: const TextHeader(
                           size: 20,
                           align: TextAlign.center,
                           title: 'Telkom Data Ekosistem Gelar NeutraDC Summit 2023, Bahas Proteksi Data', 
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        child: TextHeader(
+                        child: const TextHeader(
                           align: TextAlign.justify,
                           size: 14,
                           title: 'PT Telkom Indonesia (Persero) Tbk menggelar diskusi panel berskala internasional "NeutraDC Summit 2023" melalui anak usahanya yang bergerak di bisnis data center.', 
@@ -121,25 +121,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            PostContent(
+            const PostContent(
               title: "Akun Youtube DPR Diretas, BSSN Kasih Tips Ampuhnya",
               image: "assets/images/content4.jpeg",
               date: "Malang, 11 September 2023",
             ),
-            PostContent(
+            const PostContent(
               title: "Akun Youtube DPR Diretas, BSSN Kasih Tips Ampuhnya",
               image: "assets/images/content3.jpeg",
               date: "Malang, 10 September 2023",
             ),
-            PostContent(
+            const PostContent(
               title: "Akun Youtube DPR Diretas, BSSN Kasih Tips Ampuhnya",
               image: "assets/images/content2.jpeg",
               date: "Malang, 07 September 2023",
             ),
-            PostContent(
+            const PostContent(
               title: "Sony Gelar Playstation Publisher Sale di Steam dan Epic Games",
               image: "assets/images/content1.jpeg",
               date: "Malang, 10 Juni 2023",
@@ -162,8 +162,8 @@ class PostContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.all(20),
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -171,28 +171,24 @@ class PostContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 10, bottom: 10),
-                  width: 150,
-                  decoration: BoxDecoration(),
-                  child: Image.asset(
-                    image, 
-                    fit: BoxFit.cover,),
+          Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 10, bottom: 10),
+                width: 150,
+                decoration: const BoxDecoration(),
+                child: Image.asset(
+                  image, 
+                  fit: BoxFit.cover,),
+              ),
+              Expanded(
+                child: TextHeader(
+                  title: title, 
+                  size: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                Expanded(
-                  child: Container(
-                    child: TextHeader(
-                      title: title, 
-                      size: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
           Container(
             alignment: Alignment.topLeft,
@@ -221,7 +217,7 @@ class TextHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      this.title,
+      title,
       textAlign: align,
       style: TextStyle(
         fontSize: size, 
