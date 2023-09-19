@@ -38,7 +38,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String dropdownValue = list.first;
   List<String> listItem = <String>["Kelvin", "Reamur"];
-  List<String> listViewItem = <String>[];
+  List<String> listViewItem = [];
 
   double _inputUser = 0;
   double _kelvin = 0;
@@ -58,9 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       if (_newValue == "Kelvin"){
         _result = _inputUser + 273;
+        listViewItem.add('Kelvin : $_result');
         print(_result);
       }else{
         _result = (4/5) * _inputUser;
+        listViewItem.add('Reamur : $_result');
         print(_result);
       }
     });
@@ -139,15 +141,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 fontSize: 16
               ),
             ),
-            
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: ListView.separated(
+                itemCount: listViewItem.length,
+                itemBuilder: (BuildContext context, int index){
+                  return Container(
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        "Entry ${listViewItem[index]}"
+                      ),
+                    ),
+                  );
+                }, 
+                separatorBuilder: (BuildContext context, int index) => const Divider(), 
+              ),
+            )
           ],
         ),
       )
     );
   }
-
   
 }
+
+
 
 class Result extends StatelessWidget {
   const Result({super.key, required this.result});
