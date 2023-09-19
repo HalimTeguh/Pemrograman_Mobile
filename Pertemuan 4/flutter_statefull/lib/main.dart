@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> listItem = <String>["Kelvin", "Reamur"];
   List<String> listViewItem = [];
 
-  double _inputUser = 0;
+  double? _inputUser = 0;
   double _kelvin = 0;
   double _reamur = 0;
   final inputController = TextEditingController();
@@ -56,12 +56,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void perhitunganSuhu(){
     setState(() {
+      if(inputController.text == ""){
+        inputController.text = "0";
+      }
+      _inputUser = double.parse(inputController.text);
       if (_newValue == "Kelvin"){
-        _result = _inputUser + 273;
+        _result = _inputUser! + 273;
         listViewItem.add('Kelvin : $_result');
         print(_result);
       }else{
-        _result = (4/5) * _inputUser;
+        _result = (4/5) * _inputUser!;
         listViewItem.add('Reamur : $_result');
         print(_result);
       }
@@ -84,7 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 hintText: "Your Temperature"
               ),
               onChanged: (value) {
-                _inputUser = double.parse(value);
+                inputController.text = value;
+                print(inputController);
               },
             ),
             Container(
@@ -152,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 50,
                     child: Center(
                       child: Text(
-                        "Entry ${listViewItem[index]}"
+                        listViewItem[index]
                       ),
                     ),
                   );
