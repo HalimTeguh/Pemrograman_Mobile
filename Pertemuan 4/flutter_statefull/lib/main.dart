@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
   const List<String> list = <String>['Kelvin', 'Reamur'];
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
+
   final String title;
 
   @override
@@ -35,7 +37,34 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String dropdownValue = list.first;
-  List<String> data = <String>["data"];
+  List<String> listItem = <String>["Kelvin", "Reamur"];
+  List<String> listViewItem = <String>[];
+
+  double _inputUser = 0;
+  double _kelvin = 0;
+  double _reamur = 0;
+  final inputController = TextEditingController();
+  String _newValue = "Kelvin";
+  double _result = 0;
+
+
+  void dropdownOnChanged (String changeValue){
+    setState(() {
+      _newValue = changeValue;
+    });
+  }
+
+  void perhitunganSuhu(){
+    setState(() {
+      if (_newValue == "Kelvin"){
+        _result = _inputUser + 273;
+        print(_result);
+      }else{
+        _result = (4/5) * _inputUser;
+        print(_result);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 hintText: "Your Temperature"
               ),
               onChanged: (value) {
-                print(value);
+                _inputUser = double.parse(value);
               },
             ),
             Container(
@@ -62,31 +91,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   DropdownButton<String>(
                     alignment: AlignmentDirectional.center,
-                    value: dropdownValue,
+                    items: listItem.map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value));
+                    }).toList(),
+                    value: _newValue,
                     onChanged: (String? value) {
                       setState(() {
-                        dropdownValue = value!;
+                        _newValue = value!;
                       });
                     },
-                    items: list.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
                   ),
                   SizedBox(height: 20,),
-                  Text(
-                    "Hasil",
-                    style: TextStyle(
-                      fontSize: 20
-                    ),),
-                  Text(
-                    "235.6",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold
-                    ),),
+
+                  Result(result: _result),
                 ],
               )
             ),
@@ -100,7 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white
                 ), 
-                onPressed: () {},
+                onPressed: () {
+                  perhitunganSuhu();
+                },
                 child: Text(
                   'Konversi Suhu',
                   style: TextStyle(
@@ -118,20 +139,40 @@ class _MyHomePageState extends State<MyHomePage> {
                 fontSize: 16
               ),
             ),
-            ListView.separated(
-              padding: EdgeInsets.all(8),
-              itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  child: Text('${data[index]}'),
-                );
-              }, 
-              separatorBuilder: (BuildContext context, index) =>
-                const Divider(),
-              ), 
+            
           ],
         ),
       )
+    );
+  }
+
+  
+}
+
+class Result extends StatelessWidget {
+  const Result({super.key, required this.result});
+
+  final double result;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      child: Column(children: [
+        Text(
+          "Hasil",
+          style: TextStyle(
+            fontSize: 20
+          ),
+        ),
+        Text(
+          result.toStringAsFixed(1),
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      ]),
     );
   }
 }
