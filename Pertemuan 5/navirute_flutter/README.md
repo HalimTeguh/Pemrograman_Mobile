@@ -1,6 +1,14 @@
 # navirute_flutter
 
-A new Flutter project.
+Learn Navigation and Route in Flutter
+
+A. Home Page
+
+![image](lib/assets/homePage.png)
+
+B. Item Page
+
+![image](lib/assets/itemPage.png)
 
 ## Getting Started
 
