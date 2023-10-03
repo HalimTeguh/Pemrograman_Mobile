@@ -73,20 +73,19 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  Future<Item> navigateToEntryForm(BuildContext context, Item item) async {
+  Future<Item?> navigateToEntryForm(BuildContext context, Item item) async {
+    DbHelper dbHelper = DbHelper();
+
     var result = await Navigator.push(context, 
       MaterialPageRoute(builder: (BuildContext context){
         return EntryForm(item);
       }));
-    if(result != null && result is Item){
-      return result;
-    }else{
-      return Item(name: "", price: 0);
-    }
+    return result;
   }
 
   ListView createListView(){
     TextStyle textStyle = TextStyle(color: Colors.white);
+    
     var length = itemList.length~/2;
 
     if(itemList.isEmpty){
@@ -110,13 +109,19 @@ class _HomePageState extends State<HomePage> {
               child: Icon(Icons.delete),
               onTap: () async {
                 //TODO 3: Panggil Fungsio untuk delete dari DB berdasarkan Item
+                print("deleting ${itemList[index].id}");
+                var delete = dbHelper.delete(itemList[index].id);
+                updateListView();
               },
             ),
             onTap: () async {
               print(this.itemList[index].id);
               print("Banyak Item: ${length}");
 
-              var item = await navigateToEntryForm(context, this.itemList[index]);
+              var updatedItem = await navigateToEntryForm(context, this.itemList[index]);
+              if (updatedItem != null){
+                UpdatedItem(updatedItem);
+              }
             },
           ),
         );
@@ -135,6 +140,16 @@ class _HomePageState extends State<HomePage> {
         });
       });
     });
+  }
+
+  Future<void> UpdatedItem(Item item) async {
+    var result = await dbHelper.update(item);
+    if(result > 0){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Berhasil Memperbarui")));
+      updateListView();
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal Memperbarui")));
+    }
   }
 
 }

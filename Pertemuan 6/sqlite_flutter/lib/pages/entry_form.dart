@@ -102,7 +102,6 @@ class _EntryFormState extends State<EntryForm> {
                         ),
                         ),
                       onPressed: () async {
-                       
                           if (item == null) {
                             // tambah data
                             item = Item(name: nameController.text, price:int.parse(priceController.text));
@@ -129,7 +128,6 @@ class _EntryFormState extends State<EntryForm> {
                         ),
                       ),
                       onPressed: () {
-                        //tambah data
                         Navigator.pop(context);
                       },
                     ),
