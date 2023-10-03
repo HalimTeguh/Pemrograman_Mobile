@@ -11,16 +11,30 @@ class DbHelper {
   static Database? _database;
   DbHelper.createObject();
 
+  factory DbHelper(){
+    if(_dbHelper == null){
+      _dbHelper = DbHelper.createObject();
+    }
+    return _dbHelper!;
+  }
+
+  Future<Database?> get database async{
+    if(_database == null){
+      _database = await initDb();
+    }
+
+    return _database;
+  }
 
   Future<Database> initDb() async {
 
     //Untuk menentukan nama database dan lokasi yang dibuat
     Directory directory = await getApplicationDocumentsDirectory();
 
-    String path = directory.path + 'item.db';
-
+    String path = directory.path + "item.db";
+ 
     //create, read databases
-    var itemDatabase = openDatabase(path, version: 1, onCreate: _createDb);
+    var itemDatabase = openDatabase(path, version: 4, onCreate: _createDb);
 
     //mengambalikan nilai object sebagai hasili dari fungsinya
     return itemDatabase;
@@ -28,31 +42,35 @@ class DbHelper {
 
   //buat table baru dengan nama item
   void _createDb(Database db, int version) async {
-    await db.execute(
-        "CREATE TABLE item(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price INTEGER)");
+    await db.execute('''
+      CREATE TABLE item (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        name TEXT, 
+        price INTEGER)
+        ''');  
   }
-
-  //select databases
-  Future<List <Map <String, dynamic>>> select() async{
-    Database db = await this.initDb();
-
-    var mapList = await db.query('item', orderBy: 'name');
-
-    return mapList;
-  }
-
 
   //create databases
   Future<int> insert(Item object) async {
-    Database db = await this.initDb();
+    Database db = await initDb();
 
     int count = await db.insert('item', object.toMap());
 
     return count;
   }
 
+  //select databases
+  Future<List <Map <String, dynamic>>> select() async{
+    Database db = await initDb();
+
+    var mapList = await db.query('item', orderBy: 'name');
+
+    return mapList;
+  }
+
+  //update databases
   Future<int> update(Item object) async{
-    Database db = await this.initDb();
+    Database db = await initDb();
 
     int count = await db.update('item', object.toMap(),
     where: 'id=?',
@@ -61,8 +79,9 @@ class DbHelper {
     return count;
   }
 
+  //delete databases
   Future<int> delete(int id) async{
-    Database db = await this.initDb();
+    Database db = await initDb();
     int count = await db.delete('item', where: 'id=?', whereArgs: [id]);
 
     return count;
@@ -72,10 +91,6 @@ class DbHelper {
     var itemMapList = await select();
 
     int count = itemMapList.length;
-
-
-
-
 
     //Ini tidak sesuai dengan jobsheet
     List<Item> itemList = List<Item>.from(itemMapList.map((itemMap) => Item.fromMap(itemMap)));
@@ -87,21 +102,25 @@ class DbHelper {
     return itemList;
   }
 
-  factory DbHelper(){
-    if(_dbHelper == null){
-      _dbHelper = DbHelper.createObject();
-    }
+  Future<Item?> getItembyItem(int id) async {
+    Database? db = await this.database;
 
-    return _dbHelper!;
+    List<Map<String, dynamic>> maps = await db!.query(
+      'item',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    if(maps.isNotEmpty){
+      return Item.fromMap(maps.first);
+    }else{
+      return null;
+    }
   }
 
-  Future<Database?> get database async{
-    if (_database == null){
-      _database = await initDb();
-    }
+  
 
-    return _database;
-  }
+  
 
 }
 

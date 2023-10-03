@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite_flutter/helpers/dbhelper.dart';
 import 'package:sqlite_flutter/models/item.dart';
 
 class EntryForm extends StatefulWidget {
-  const EntryForm({super.key, required this.item});
+  const EntryForm(this.item);
 
   final Item item;
 
@@ -11,7 +12,7 @@ class EntryForm extends StatefulWidget {
 }
 
 class _EntryFormState extends State<EntryForm> {
-  late Item item;
+  Item item;
 
   _EntryFormState(this.item);
 
@@ -28,11 +29,11 @@ class _EntryFormState extends State<EntryForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: item == null ? Text('Tambah') : Text('Ubah'),
-        leading: Icon(Icons.keyboard_arrow_left),
+        title: item.name == "" ? const Text('Tambah') : const Text('Ubah'),
+        leading: const Icon(Icons.keyboard_arrow_left),
       ),
       body: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 15,
           left: 10,
           right: 10
@@ -41,7 +42,7 @@ class _EntryFormState extends State<EntryForm> {
           children: <Widget>[
             //nama
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 20,
                 bottom: 20
               ),
@@ -62,7 +63,7 @@ class _EntryFormState extends State<EntryForm> {
 
             //harga
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 20,
                 bottom: 20
               ),
@@ -81,7 +82,7 @@ class _EntryFormState extends State<EntryForm> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 20,
                 bottom: 20
               ),
@@ -90,36 +91,37 @@ class _EntryFormState extends State<EntryForm> {
                   //tombol simpan
                   Expanded(
                     child: TextButton(
-                      style: ButtonStyle(
+                      style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll<Color>(Colors.blue)
                       ),
-                      child: Text(
+                      child: const Text(
                         "Save", 
                         textScaleFactor: 1.5,
                         style: TextStyle(
                           color: Colors.white
                         ),
                         ),
-                      onPressed: () {
-                        //tambah data
-                        if(item == null){
-                          item = Item(nameController.text, int.parse(priceController.text));
-                        }else{
-                        //ubah data
-                          item.name = nameController.text;
-                          item.price = int.parse(priceController.text);
-                        }
+                      onPressed: () async {
+                       
+                          if (item == null) {
+                            // tambah data
+                            item = Item(name: nameController.text, price:int.parse(priceController.text));
+                          } else {
+                            // ubah data
+                            item.name = nameController.text;
+                            item.price = int.parse(priceController.text);
+                          }
                         Navigator.pop(context, item);
                       },
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Expanded(
                     child: TextButton(
-                      style: ButtonStyle(
+                      style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll<Color>(Colors.red)
                       ),
-                      child: Text(
+                      child: const Text(
                         "Cancel", 
                         textScaleFactor: 1.5,
                         style: TextStyle(

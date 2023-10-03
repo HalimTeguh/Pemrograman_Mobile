@@ -1,94 +1,140 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:sqlite_flutter/helpers/dbhelper.dart';
 import 'package:sqlite_flutter/models/item.dart';
+import 'package:sqlite_flutter/pages/entry_form.dart';
 
-class HomePage extends StatelessWidget {
-  // final List<Item> items = [
-  //   Item(
-  //       name: "Sugar",
-  //       price: 5000,
-  //       image: "lib/assets/gula.jpg",
-  //       desc:
-  //           "Diproduksi dari tetes tebu alami dengan kandungan kadar molasses yang lebih tinggi guna menghasilkan aroma caramel alami. Warna kuning ke-emasan dan Butiran gula yang seragam memberikan tekstur dan konsistensi untuk campuran minuman, taburan roti dan kue, atau membuat kue tradisional."),
-  //   Item(
-  //       name: "Garam Kapal 500gr",
-  //       price: 2000,
-  //       image: "lib/assets/garam.jpg",
-  //       desc:
-  //           "Garam CAP KAPAL 500gr merupakan garam beryodium persembahan Cap Kapal yang diproduksi secara higienis dan aman untuk dikonsumsi. Garam ini memiliki kemasan yang praktis dan mudah untuk digunakan untuk melengkapi bahan dapur Anda.")
-  // ];
-  DbHelper dbHelper = DbHelper();
-  int count = 0;
-  List<Item>? itemList;
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    if(itemList == null){
-      itemList = List<Item>();
-    }
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("Shopping List"),
-      ),
-      body: Container(
-        margin: EdgeInsets.all(8),
-        child: ListView.builder(
-            padding: EdgeInsets.all(8),
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              final item = 2;
-              return InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/item', arguments: item);
-                },
-                child: Card(
-                  child: Container(
-                    margin: EdgeInsets.all(8),
-                    padding: EdgeInsets.only(top: 8, bottom: 8, right: 20),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(0),
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(0),
-                            ),
-                            child: Image(
-                              width: 80,
-                              image: AssetImage("item.image"),
-                              fit: BoxFit.cover,
-                            )
-                        ),
-                        SizedBox(width: 20),
-                        Expanded(
-                          child: Text(
-                            "item.name",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold
-                            ),
-                          )
-                        ),
-                        Expanded(
-                          child: Text(
-                            "Rp1,-",
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-      ),
-    );
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  DbHelper dbHelper = DbHelper();
+  int count = 0;
+  late List<Item> itemList;
+
+  @override
+  void initState(){
+    super.initState();
+    itemList = [];
+    updateListView();
   }
+  
+  @override
+  Widget build(BuildContext context) {
+    // itemList ??= List<Item>();
+    
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: const Text("Daftar Item"),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: createListView(),
+            ),
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: TextButton(
+                  child: Text(
+                    "Tambah Item",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    ),
+                    ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.blue
+                  ),
+                  onPressed: () async {
+                    var item = await navigateToEntryForm(
+                      context, Item(name: "", price: 0));
+
+                    if (item != null) {
+                      int result = await dbHelper.insert(item);
+                      if (result > 0) {
+                        updateListView();
+                      }
+                    }
+                  },
+                ),
+              ),
+            )
+          ],
+        ));
+  }
+
+  Future<Item> navigateToEntryForm(BuildContext context, Item item) async {
+    var result = await Navigator.push(context, 
+      MaterialPageRoute(builder: (BuildContext context){
+        return EntryForm(item);
+      }));
+    if(result != null && result is Item){
+      return result;
+    }else{
+      return Item(name: "", price: 0);
+    }
+  }
+
+  ListView createListView(){
+    TextStyle textStyle = TextStyle(color: Colors.white);
+    var length = itemList.length~/2;
+
+    if(itemList.isEmpty){
+      return ListView();
+    }
+
+    return ListView.builder(
+      itemCount: length,
+      itemBuilder: (BuildContext context, index) {
+        return Card(
+          color: Colors.white,
+          elevation: 2.0,
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.red,
+              child: Icon(Icons.ad_units),
+            ),
+            title: Text(this.itemList[index].name),
+            subtitle: Text(this.itemList[index].price.toString()),
+            trailing: GestureDetector(
+              child: Icon(Icons.delete),
+              onTap: () async {
+                //TODO 3: Panggil Fungsio untuk delete dari DB berdasarkan Item
+              },
+            ),
+            onTap: () async {
+              print(this.itemList[index].id);
+              print("Banyak Item: ${length}");
+
+              var item = await navigateToEntryForm(context, this.itemList[index]);
+            },
+          ),
+        );
+      });
+  }
+
+  void updateListView(){
+    final Future<Database> dbFuture = dbHelper.initDb();
+    dbFuture.then((database) {
+      Future<List<Item>> itemListFuture = dbHelper.getItemList();
+
+      itemListFuture.then((itemList) {
+        setState(() {
+          this.itemList = itemList;
+          this.count = itemList.length;
+        });
+      });
+    });
+  }
+
 }

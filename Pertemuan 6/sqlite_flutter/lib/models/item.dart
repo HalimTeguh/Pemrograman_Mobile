@@ -1,37 +1,48 @@
-class Item{
-  late int _id;
+class Item {
+  int? _id;
 
-  late String _name;
+  String? _name;
 
-  late int _price;
+  int? _price;
 
   //Constructor 1
-  Item(this._name, this._price);
+  Item({required String name, required int price})
+      : _name = name,
+        _price = price;
 
   //Constructor 2
-  Item.fromMap(Map<String, dynamic> map){
+  Item.fromMap(Map<String, dynamic> map) {
     this._id = map['id'];
     this._name = map['name'];
     this._price = map['price'];
   }
 
-  //Setter getter
-  int get id => this._id;
-
-  String get name => this._name;
-  set name(String value) => this._name = value;
-
-
-  int get price => this._price;
-  set price(int value) => this._price = value;
-
-  Map<String, dynamic> toMap(){
-    Map<String, dynamic> map = Map<String, dynamic>();
-
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = <String, dynamic>{};
     map['id'] = this._id;
     map['name'] = name;
     map['price'] = price;
 
     return map;
   }
+
+  Map<String, dynamic> toMapWithoutId() {
+    final map = new Map<String, dynamic>();
+    map['id'] = this._name;
+    map['price'] = this._price;
+    return map;
+  }
+
+  //Setter getter
+  get id => _id;
+
+  set id(value) => _id = value;
+
+  get name => _name;
+
+  set name(value) => _name = value;
+
+  get price => _price;
+
+  set price(value) => _price = value;
 }
