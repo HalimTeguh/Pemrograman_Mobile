@@ -1,6 +1,16 @@
 # sqlite_flutter
 
-A new Flutter project.
+Project ini adalah project CRUD data stok barang yang terintegrasi dengan SQFLITE flutter.
+
+## Preview
+Halaman Home, Menampilkan list barang apa saja yang tersedia dan harganya
+![image](lib/assets/homePage.jpg)
+
+Halaman EntryForm, halaman form untuk menambahkan atau mengedit data
+![image](lib/assets/entryForm.jpg)
+
+Halaman Home setelah add data
+![image](lib/assets/homeNew.jpg)
 
 ## Getting Started
 

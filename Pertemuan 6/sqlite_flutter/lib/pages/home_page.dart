@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onPressed: () async {
                     var item = await navigateToEntryForm(
-                      context, Item(name: "", price: 0));
+                      context, Item(name: "", kdBarang: "", price: 0, stok: 0));
 
                     if (item != null) {
                       int result = await dbHelper.insert(item);

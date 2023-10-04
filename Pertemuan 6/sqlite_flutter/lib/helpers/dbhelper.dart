@@ -31,10 +31,10 @@ class DbHelper {
     //Untuk menentukan nama database dan lokasi yang dibuat
     Directory directory = await getApplicationDocumentsDirectory();
 
-    String path = directory.path + "item.db";
+    String path = directory.path + "barang.db";
  
     //create, read databases
-    var itemDatabase = openDatabase(path, version: 4, onCreate: _createDb);
+    var itemDatabase = openDatabase(path, version: 5, onCreate: _createDb);
 
     //mengambalikan nilai object sebagai hasili dari fungsinya
     return itemDatabase;
@@ -46,9 +46,12 @@ class DbHelper {
       CREATE TABLE item (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         name TEXT, 
-        price INTEGER)
+        kdBarang VARCHAR(255),
+        price INTEGER,
+        stok INTEGER)
         ''');  
   }
+
 
   //create databases
   Future<int> insert(Item object) async {
