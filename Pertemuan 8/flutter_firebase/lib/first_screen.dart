@@ -7,9 +7,13 @@ class FirstScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(imageUrl == null){
+      imageUrl = 'https://images.unsplash.com/photo-1640951613773-54706e06851d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80';
+    }
+    
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
@@ -33,14 +37,14 @@ class FirstScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black54,
+                  color: Colors.white,
                 ),
               ),
               Text(
-                email!,
+                name!,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.deepPurple,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -53,8 +57,12 @@ class FirstScreen extends StatelessWidget {
                       return LoginPage();
                     }), ModalRoute.withName('/'));
                   },
-                  child: Padding(
-                    padding: EdgeInsets.all(8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30)
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: Text(
                       'Sign Out',
                       style: TextStyle(fontSize: 25, color: Colors.black),

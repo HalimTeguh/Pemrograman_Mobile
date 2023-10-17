@@ -1,20 +1,50 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/first_screen.dart';
-import 'package:flutter_firebase/register_page.dart';
+import 'package:flutter_firebase/login_page.dart';
 import 'package:flutter_firebase/sign_in.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  String? get _errorEmail {
+    final email = emailController.value.text;
+
+    if(email.isEmpty){
+      return "Can't be empty";
+    }
+
+    if(!email.contains("@")){
+      return "Email format is invalid";
+    }
+
+    return null;
+  }
+
+  String? get _errorPassword {
+    final password = passwordController.value.text;
+
+    if(password.isEmpty){
+      return "Can't be empty";
+    }
+
+    if(password.length < 4){
+      return "Too Short";
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +70,12 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         labelText: "Email",
+                        errorText: _errorEmail,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() => value);
+                    },
                   ),
                 ),
                 SizedBox(
@@ -56,24 +89,28 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         labelText: "Password",
+                        errorText: _errorPassword,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() => value);
+                    },
                   ),
                 ),
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("don't have an account yet?"),
+                      Text("Already have an account?"),
                       TextButton(
                           style: ButtonStyle(),
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                              return RegisterPage();
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return LoginPage();
                             }));
                           },
-                          child: Text("Register")),
+                          child: Text("Sign In")),
                     ],
                   ),
                 ),
@@ -92,76 +129,29 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         print(emailController.value.text);
                         print(passwordController.value.text);
-                        signInWithEmailPassword(
-                                email: emailController.value.text,
-                                password: passwordController.value.text)
-                            .then((result) {
-                          if (result != null) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return FirstScreen();
-                              },
-                            ));
-                          } else {
-                            sweatAlert(context);
-                          }
-                        });
+                        signUp(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then(
+                          (result) {
+                            if (result != null) {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return LoginPage();
+                              }));
+                            } else {
+                              sweatAlert(
+                                  context,
+                                  AlertType.warning,
+                                  "Register Gagal",
+                                  "Silahkan coba register kembali coy");
+                            }
+                          },
+                        );
                       },
                       child: Text(
-                        'Login',
+                        'Register',
                         style: TextStyle(fontSize: 18, color: Colors.white),
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Divider(
-                        thickness: 2,
-                      )),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("or"),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: Divider(
-                        thickness: 2,
-                      )),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.black38, width: 2)),
-                  child: TextButton(
-                      onPressed: () {
-                        signInWithGoogle().then((result) {
-                          if (result != null) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return FirstScreen();
-                              },
-                            ));
-                          }
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          'Sign in With Google',
-                          style: TextStyle(color: Colors.black54, fontSize: 15),
-                        ),
                       )),
                 ),
 
@@ -174,17 +164,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void sweatAlert(BuildContext context) {
-    Alert(
-        context: context,
-        type: AlertType.success,
-        title: "Login Berhasil",
-        desc: "Selamat anda berhasil login",
-        buttons: [
-          DialogButton(
-              child: Text('Selanjutnya'),
-              onPressed: () => Navigator.pop(context))
-        ]);
+  void sweatAlert(
+      BuildContext context, AlertType status, String title, String desc) {
+    Alert(context: context, type: status, title: title, desc: desc, buttons: [
+      DialogButton(
+          child: Text('Selanjutnya'), onPressed: () => Navigator.pop(context))
+    ]);
   }
 
   Widget _signInButton() {
